@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "NTLogin"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "Login to Norsk Tipping for delivering bets."
   s.license		 = "Commercial"
   s.description  = <<-DESC
