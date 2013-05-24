@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Classes/NTLogin', 'Classes/NTServices/**/*.{h,m}'
   s.exclude_files = 'Classes/Exclude'
-  s.public_header_files = 'Classes/NTLogin/NTAuthentication.h', 'Classes/NTLogin/NTServerResponse.h'
+  s.public_header_files = 'Classes/NTLogin/NTAuthentication.h', 'Classes/NTServices/Data/NTServerResponse.h'
 
   # Specify a list of frameworks that the application needs to link
   # against for this Pod to work.
