@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/KnowitReaktorMagma/NTLoginExample/wiki"
   s.author       = { "Erik Engheim" => "erik.engheim@knowit.no" }
-  s.source       = { :git => "https://github.com/KnowitReaktorMagma/NTLoginExample.git", :commit => "6b237957780cbf0a6af878f1a777fdfa2cff6f7f" }
+  s.source       = { :git => "https://github.com/KnowitReaktorMagma/NTLoginExample.git", :commit => "bdb3336ba7495f0f094dd69c78525674111434c5" }
 
   s.platform     = :ios, '5.0'
 
