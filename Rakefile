@@ -27,12 +27,9 @@ PODS_ALLOWED_TO_FAIL = {
     'EGOTableViewPullRefresh',
     'Evernote-SDK-Mac',
     'Flash2Cocos2D',
-    'GHUnitIOS',
-    'GHUnitOSX',
     'GMGridView',
     'IBAForms',
     'iOSInstalledApps',
-    'iPhoneMK',
     'JASidePanels',
     'JBKenBurnsView',
     'JSONKit',
@@ -42,11 +39,9 @@ PODS_ALLOWED_TO_FAIL = {
     'libgit2',
     'MACalendarUI',
     'MAKVONotificationCenter',
-    'MASShortcut',
     'MGSplitViewController',
     'MPFlipViewController',
     'NSLogger-CocoaLumberjack-connector',
-    'OCMock',
     'ODRefreshControl',
     'OHAttributedLabel',
     'pubnub-api',
@@ -56,7 +51,6 @@ PODS_ALLOWED_TO_FAIL = {
     'SocketRocket',
     'SPTabBarController',
     'StackMob',
-    'SYCache',
     'TBXML',
     'Three20Lite',
     'TwUI',
@@ -66,9 +60,81 @@ PODS_ALLOWED_TO_FAIL = {
     'vfrReader',
   ],
 
-  "The version should be included in the Git tag." => [
-    'iOS-Hierarchy-Viewer',
+  "Comments placed at the top of the specification must be deleted." => [
+    'Google-API-Client',
+    'iOS-KML-Framework',
+    'KDXCollectionView',
+    'LibComponentLogging-pods',
+    'MacMapKit',
+    'MBPopoverBackgroundView',
+    'MMPickerView',
+    'NNNetwork',
+    'QuincyKit',
+    'SBTickerView',
+    'StateMachine-GCDThreadsafe',
+    'TumbleOn-Utils',
   ],
+
+  "The post install hook of the specification DSL has been deprecated, use the `resource_bundles` or the `prepare_command` attributes." => [
+    'AppPaoPaoSDK',
+    'ARCHelper',
+    'ARCMacro',
+    'CocoaLibSpotify',
+    'CoconutKit',
+    'DTCoreText',
+    'Facebook-iOS-SDK',
+    'GrannySmith',
+    'HockeySDK',
+    'LibComponentLogging-Core',
+    'LibComponentLogging-Crashlytics',
+    'LibComponentLogging-LogFile',
+    'LibComponentLogging-NSLog',
+    'LibComponentLogging-NSLogger',
+    'LibComponentLogging-pods',
+    'LibComponentLogging-qlog',
+    'LibComponentLogging-SystemLog',
+    'LibComponentLogging-UserDefaults',
+    'MagicalRecord',
+    'MapBox',
+    'MKStoreKit',
+    'PLDatabase',
+    'QuickDialog',
+    'SSToolkit',
+    'SYCache',
+    'TICoreDataSync',
+    'TouchDB',
+    'unoffical-twitter-sdk',
+    'XingSDK',
+  ],
+
+  "The pre install hook of the specification DSL has been deprecated, use the `resource_bundles` or the `prepare_command` attributes." => [
+    'ARAnalytics',
+    'CocoaLibSpotify',
+    'CoconutKit',
+    'CorePlot',
+    'ctemplate',
+    'DTCoreText',
+    'expat',
+    'Facebook-iOS-SDK',
+    'freexl',
+    'geos',
+    'HockeySDK',
+    'icu4c',
+    'jsoncpp',
+    'lambert-objc',
+    'LevelDB-ObjC',
+    'libetpan',
+    'libsasl2',
+    'LibYAML',
+    'MapBox',
+    'proj4',
+    'ReactiveCocoa',
+    'SinglySDK',
+    'spatialite',
+    'Three20',
+    'yajl',
+  ],
+
 
 }
 
@@ -179,11 +245,13 @@ task :default => :validate
 # @return [Bool] If the spec can be accepted
 #
 def check_if_can_be_accepted(spec, spec_path)
-  # previous_spec_contents = previous_version_of_spec(spec_path)
-  acceptor = Pod::Source::Acceptor.new('.')
-  errors = acceptor.analyze(spec)
+  previous_spec_contents = previous_version_of_spec(spec_path)
+  if previous_spec_contents
+    previous_spec = Pod::Specification.from_string(previous_spec_contents, spec_path)
+  end
+  errors = Pod::Source::Acceptor.new('.').analyze(spec, previous_spec)
   errors.each do |error|
-    puts red("- #{error}")
+    puts red("    - ERROR | #{error}")
   end
   errors.count.zero?
 end
@@ -250,7 +318,8 @@ end
 #         commit.
 #
 def previous_version_of_spec(spec_path)
-  `git show HEAD~1:#{spec_path}`
+  contents = `git show HEAD~1:#{spec_path} 2>/dev/null`
+  contents if $?.to_i.zero?
 end
 
 # group UI helpers
