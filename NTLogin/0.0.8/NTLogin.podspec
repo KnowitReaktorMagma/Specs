@@ -25,7 +25,6 @@ Pod::Spec.new do |s|
   # s.frameworks = 'SomeFramework', 'AnotherFramework'
 
   s.requires_arc = true
-
-  s.dependency 'AFNetworking'
-  s.dependency 'SBJson'  
+  s.dependency 'AFNetworking', '~> 1.3'
+  s.dependency 'SBJson', '~> 3.2'
 end
